@@ -6,11 +6,15 @@ import jwt from 'jsonwebtoken';
 const app = Router();
 
 app.get('/' , async (req, res) => {
+   try {
     const users = await userModel.findAll();
     if (!users) {
         return res.status(404).json({ message: "No users found" });
     }
     return res.status(200).json({ message : "success" , users : users });
+   } catch (error) {
+    res.json({ message : "error", error : error.message });
+   }
 });
 
 app.delete('/:id',async (req, res) => {
